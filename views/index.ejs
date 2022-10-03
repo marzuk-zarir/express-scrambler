@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Express Scrambler</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+            crossorigin="anonymous"
+        />
+    </head>
+    <body>
+        <div class="container mt-5" style="max-width: 768px">
+            <h1 class="text-center fw-medium display-6">Welcome to Express Scrambler</h1>
+            <div class="py-4 gap-2 justify-content-center d-flex">
+                <a href="?mode=generate_key" class="link-primary">Generate Key</a>
+                <a href="?mode=encode&key=<%= key %>" class="link-primary">Encode</a>
+                <a href="?mode=decode&key=<%= key %>" class="link-primary">Decode</a>
+            </div>
+            <form action="?mode=<%= mode %>&key=<%= key %>" method="POST">
+                <div class="mb-4">
+                    <label for="key" class="text-secondary form-label">Private Key</label>
+                    <input type="text" name="key" id="key" class="form-control" value="<%= key %>"
+                    <%= mode !== 'decode' ? 'readonly': '' %> />
+                </div>
+                <div class="mb-4">
+                    <label for="data" class="text-secondary form-label">Data</label>
+                    <textarea
+                        name="data"
+                        id="data"
+                        rows="8"
+                        class="form-control <%= isError ? 'is-invalid' : '' %>"
+                    >
+<%= data ? data : '' %></textarea
+                    >
+                    <% if(isError) { %>
+                    <div id="data" class="invalid-feedback">
+                        Please enter some data to encode/decode
+                    </div>
+                    <% } %>
+                </div>
+                <div class="mb-4">
+                    <label for="result" class="text-secondary form-label">Result</label>
+                    <textarea name="result" id="result" rows="8" class="form-control" readonly>
+<%= result ? result : '' %></textarea
+                    >
+                </div>
+                <input
+                    type="submit"
+                    class="w-100 btn btn-success"
+                    value="<%= mode === 'decode' ? 'Decode' : 'Encode' %> Data"
+                />
+            </form>
+        </div>
+    </body>
+</html>
